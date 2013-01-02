@@ -11,5 +11,5 @@ clean:
 	rm -rf bin/*
 
 
-test: all
-	export DBUG_OPTS="d:t:o:L:";bin/sample
+test: clean all
+	export DBUG_OPTS="d:t:o:L:i:n:N:P"; bin/sample
