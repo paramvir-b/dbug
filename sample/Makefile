@@ -12,4 +12,4 @@ clean:
 
 
 test: clean all
-	export DBUG_OPTS="d:t:o:L:i:n:N:P"; bin/sample
+	cd bin;export DBUG_OPTS="d:t:o:L:i:n:N:P:g"; sample
