@@ -38,16 +38,17 @@ void testFunction(int arg1, int arg2) {
 }
 
 int main(int argc, char** argv) {
-
+    char *dbug_opts = NULL;
+    /* In C89 has to be the first line of code after declaration of variable as it declares variables */
+    DBUG_ENTER("MAIN");
     DBUG_PROCESS(argv[0]);
 
-    char *dbug_opts = getenv("DBUG_OPTS");
+    dbug_opts = getenv("DBUG_OPTS");
     if(dbug_opts){
         printf("DBUG_OPTS=%s\n", dbug_opts);
         DBUG_PUSH(dbug_opts);
     }
 
-    DBUG_ENTER("MAIN");
 
     DBUG_PRINT("TRACE", ("This is a trace message"));
     DBUG_PRINT("DEBUG", ("This is a debug message"));
