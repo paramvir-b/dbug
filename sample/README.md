@@ -7,11 +7,11 @@ For running the test:
 
 If the above command does not work try using
 
-`export CC=gcc; make clean test`
+`export CC=gcc;export CFLAGS=-std=c99; export CFLAGS89=-std=c89; make clean test`
 
 or
 
-`export CC=xlc; make clean test`
+`export CC=xlc;export CFLAGS=-qlanglvl=stdc99; export CFLAGS89=-qlanglvl=stdc89; make clean test`
 
 If no error occurred and you saw something like:
 

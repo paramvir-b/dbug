@@ -1,12 +1,17 @@
-ifeq ($(CC),gcc)
-    CFLAGS+=-std=c99
-    CFLAGS89=-std=c89
-endif
-
-ifeq ($(CC),xlc)
-    CFLAGS+=-qlanglvl=stdc99
-    CFLAGS89=-qlanglvl=stdc89
-endif
+# Commenting below code as it is not generic
+#ifeq ($(CC),gcc)
+#    CFLAGS+=-std=c99
+#    CFLAGS89=-std=c89
+#endif
+#
+#ifeq ($(CC),xlc)
+#    CFLAGS+=-qlanglvl=stdc99
+#    CFLAGS89=-qlanglvl=stdc89
+#endif
+#%if $(CC) == gcc
+#    CFLAGS+=-std=c99
+#    CFLAGS89=-std=c89
+#%endif
 
 all:
 	mkdir -p bin
