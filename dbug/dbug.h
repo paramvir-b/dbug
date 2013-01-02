@@ -35,7 +35,7 @@
  *
  *  SCCS
  *
- *	@(#)dbug.c	1.27	01/01/13
+ *	@(#)dbug.c	1.28-beta	01/02/13
  *
  *  DESCRIPTION
  *
@@ -135,11 +135,17 @@ extern "C"
     extern void _db_lock_file(void);
     extern void _db_unlock_file(void);
 
-
-#define DBUG_ENTER(a) const char *_db_func_, *_db_file_; dbug_uint _db_level_; \
+#define DBUG_ENTER_EX(a) const char *_db_func_, *_db_file_; dbug_uint _db_level_; \
 	char **_db_framep_; \
 	_db_enter_ (a,__FILE__,__LINE__,&_db_func_,&_db_file_,&_db_level_, \
 		    &_db_framep_)
+
+#if (__STDC_VERSION__ >= 199901L)
+#    define DBUG_ENTER(a) DBUG_ENTER_EX(__func__)
+#else
+#    define DBUG_ENTER(a) DBUG_ENTER_EX(a)
+#endif
+
 #define DBUG_LEAVE \
 	(_db_return_ (__LINE__, &_db_func_, &_db_file_, &_db_level_))
 #define DBUG_RETURN(a1) {DBUG_LEAVE; return(a1);}

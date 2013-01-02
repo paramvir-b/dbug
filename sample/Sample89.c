@@ -3,7 +3,7 @@
 #include "../dbug/dbug.h"
 
 void testFunction_2(int arg1, int arg2, int arg3) {
-    DBUG_ENTER();
+    DBUG_ENTER("TESTFUNCTION_2");
 
     DBUG_PRINT("ARGS", ("arg1=%d arg2=%d arg3=%d", arg1, arg2, arg3));
 
@@ -20,7 +20,7 @@ void testFunction_2(int arg1, int arg2, int arg3) {
 }
 
 void testFunction(int arg1, int arg2) {
-    DBUG_ENTER();
+    DBUG_ENTER("TESTFUNCTION");
 
     DBUG_PRINT("ARGS", ("arg1=%d arg2=%d", arg1, arg2));
 
@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
         DBUG_PUSH(dbug_opts);
     }
 
-    DBUG_ENTER();
+    DBUG_ENTER("MAIN");
 
     DBUG_PRINT("TRACE", ("This is a trace message"));
     DBUG_PRINT("DEBUG", ("This is a debug message"));
