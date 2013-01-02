@@ -35,7 +35,7 @@
  *
  *  SCCS
  *
- *	@(#)dbug.c	1.25	7/25/89
+ *	@(#)dbug.c	1.26	01/01/13
  *
  *  DESCRIPTION
  *
@@ -64,6 +64,8 @@
  *	PUSH_FLAG "A"	- as 'O', but we will append to the out file instead
  *			  of creating a new one.
  *	Check of malloc on entry/exit (option "S")
+ *
+ *	Paramvir Bali           Made it compilable on OSX
  */
 
 #ifndef _dbug_h
