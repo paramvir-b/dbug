@@ -135,6 +135,15 @@ extern "C"
     extern void _db_lock_file(void);
     extern void _db_unlock_file(void);
 
+/* Predifined log strings */
+#define DBUG_FATAL_STR  "[FATAL]"
+#define DBUG_ERROR_STR  "[ERROR]"
+#define DBUG_WARN_STR   "[WARN ]"
+#define DBUG_INFO_STR   "[info ]"
+#define DBUG_DEBUG_STR  "[debug]"
+#define DBUG_TRACE_STR  "[trace]"
+#define DBUG_ARGS_STR   "[args ]"
+
 #define DBUG_ENTER_EX(a) const char *_db_func_, *_db_file_; dbug_uint _db_level_; \
 	char **_db_framep_; \
 	_db_enter_ (a,__FILE__,__LINE__,&_db_func_,&_db_file_,&_db_level_, \
@@ -154,6 +163,14 @@ extern "C"
 	{if (_db_on_) {if (_db_keyword_ (keyword)) { a1 }}}
 #define DBUG_PRINT(keyword,arglist) \
 	{if (_db_on_) {_db_pargs_(__LINE__,keyword); _db_doprnt_ arglist;}}
+/* Predifined print strings for consistency and ease of use*/
+#define DBUG_FATAL(arglist) DBUG_PRINT(DBUG_FATAL_STR, arglist) 
+#define DBUG_ERROR(arglist) DBUG_PRINT(DBUG_ERROR_STR, arglist) 
+#define DBUG_WARN(arglist) DBUG_PRINT(DBUG_WARN_STR, arglist) 
+#define DBUG_INFO(arglist) DBUG_PRINT(DBUG_INFO_STR, arglist) 
+#define DBUG_DEBUG(arglist) DBUG_PRINT(DBUG_DEBUG_STR, arglist) 
+#define DBUG_TRACE(arglist) DBUG_PRINT(DBUG_TRACE_STR, arglist) 
+#define DBUG_ARGS(arglist) DBUG_PRINT(DBUG_ARGS_STR, arglist) 
 #define DBUG_PUSH(a1) _db_push_ (a1)
 #define DBUG_POP() _db_pop_ ()
 #define DBUG_PROCESS(a1) (_db_process_ = a1)
@@ -176,6 +193,13 @@ extern "C"
 #define DBUG_VOID_RETURN return
 #define DBUG_EXECUTE(keyword,a1) {}
 #define DBUG_PRINT(keyword,arglist) {}
+#define DBUG_FATAL(arglist)
+#define DBUG_ERROR(arglist)
+#define DBUG_WARN(arglist)
+#define DBUG_INFO(arglist)
+#define DBUG_DEBUG(arglist)
+#define DBUG_TRACE(arglist)
+#define DBUG_ARGS(arglist)
 #define DBUG_PUSH(a1) {}
 #define DBUG_POP() {}
 #define DBUG_PROCESS(a1) {}
