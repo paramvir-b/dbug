@@ -35,7 +35,7 @@
  *
  *  SCCS
  *
- *	@(#)dbug.c	1.27-beta	01/01/13
+ *	@(#)dbug.c	1.27	01/01/13
  *
  *  DESCRIPTION
  *
