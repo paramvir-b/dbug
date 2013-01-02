@@ -9,6 +9,10 @@ If the above command does not work try using
 
 `export CC=gcc; make clean test`
 
+or
+
+`export CC=xlc; make clean test`
+
 If no error occurred and you saw something like:
 
 <pre>
