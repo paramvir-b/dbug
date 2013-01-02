@@ -1,5 +1,3 @@
-CC=gcc
-CFLAGS=
 
 all:
 	mkdir -p bin
