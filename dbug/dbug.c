@@ -67,6 +67,7 @@
  *
  *	Paramvir Bali           Made it compilable on OSX
  *	Paramvir Bali           Fixed C types so that code is more portable
+ *	Paramvir Bali           Added check for FALSE macro to make code more portable
  */
 
 #ifdef DBUG_OFF
@@ -78,6 +79,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include "dbug.h"
+
+#ifndef FALSE
 /* Make a new type: bool_t */
 typedef enum
 {
@@ -85,6 +88,8 @@ typedef enum
     TRUE = (!FALSE)
 }
 bool_t;
+#endif
+
 #define my_bool int
 
 #define _VARARGS(X) X

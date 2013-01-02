@@ -67,6 +67,7 @@
  *
  *	Paramvir Bali           Made it compilable on OSX
  *	Paramvir Bali           Fixed C types so that code is more portable
+ *	Paramvir Bali           Added check for FALSE macro to make code more portable
  */
 
 #ifndef _dbug_h
