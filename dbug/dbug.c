@@ -68,6 +68,7 @@
  *	Paramvir Bali           Made it compilable on OSX
  *	Paramvir Bali           Fixed C types so that code is more portable
  *	Paramvir Bali           Added check for FALSE macro to make code more portable
+ *	Paramvir Bali           Added define for __attribute__ to make code more portable
  */
 
 #ifdef DBUG_OFF
@@ -727,7 +728,7 @@ _db_enter_(const char *_func_,
     dbug_uint _line_,
     const char **_sfunc_,
     const char **_sfile_,
-    dbug_uint * _slevel_, char ***_sframep_ __attribute__ ((unused)))
+    dbug_uint * _slevel_, char ***_sframep_ ATTRIBUTE_UNUSED)
 {
     register CODE_STATE *state;
 

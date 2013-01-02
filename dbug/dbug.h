@@ -68,6 +68,7 @@
  *	Paramvir Bali           Made it compilable on OSX
  *	Paramvir Bali           Fixed C types so that code is more portable
  *	Paramvir Bali           Added check for FALSE macro to make code more portable
+ *	Paramvir Bali           Added define for __attribute__ to make code more portable
  */
 
 #ifndef _dbug_h
@@ -75,6 +76,23 @@
 
 #include <stdio.h>
 #include <sys/types.h>
+
+/* GNU specific features */
+#ifdef __GNUC__
+#    ifdef HAVE_ANSIDECL_H
+#        include <ansidecl.h>
+#    endif
+/**
+ * ATTRIBUTE_UNUSED:
+ *
+ * Macro used to signal to GCC unused function parameters
+ */
+#    ifndef ATTRIBUTE_UNUSED
+#        define ATTRIBUTE_UNUSED __attribute__((unused))
+#    endif
+#else
+#    define ATTRIBUTE_UNUSED
+#endif
 
 #ifdef	__cplusplus
 extern "C"
