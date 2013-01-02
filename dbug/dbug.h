@@ -171,6 +171,7 @@ extern "C"
 #else							   /* No debugger */
 
 #define DBUG_ENTER(a1)
+#define DBUG_ENTER_EX(a1)
 #define DBUG_RETURN(a1) return(a1)
 #define DBUG_VOID_RETURN return
 #define DBUG_EXECUTE(keyword,a1) {}
