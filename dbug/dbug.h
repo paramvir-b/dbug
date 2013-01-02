@@ -35,7 +35,7 @@
  *
  *  SCCS
  *
- *	@(#)dbug.c	1.26	01/01/13
+ *	@(#)dbug.c	1.27-beta	01/01/13
  *
  *  DESCRIPTION
  *
@@ -66,6 +66,7 @@
  *	Check of malloc on entry/exit (option "S")
  *
  *	Paramvir Bali           Made it compilable on OSX
+ *	Paramvir Bali           Fixed C types so that code is more portable
  */
 
 #ifndef _dbug_h
@@ -77,6 +78,19 @@
 #ifdef	__cplusplus
 extern "C"
 {
+#endif
+
+/* Old compatibility names for C types for dbug to make it C99 compatible.  */
+#ifdef ulong
+    typedef ulong dbug_ulong;
+#else
+    typedef unsigned long int dbug_ulong;
+#endif
+
+#ifdef uint
+    typedef uint dbug_uint;
+#else
+    typedef unsigned int dbug_uint;
 #endif
 
     extern char _dig_vec[];
@@ -91,19 +105,19 @@ extern "C"
     extern void _db_push_(const char *control);
     extern void _db_pop_(void);
     extern void _db_enter_(const char *_func_, const char *_file_,
-	uint _line_, const char **_sfunc_, const char **_sfile_,
-	uint * _slevel_, char ***);
-    extern void _db_return_(uint _line_, const char **_sfunc_,
-	const char **_sfile_, uint * _slevel_);
-    extern void _db_pargs_(uint _line_, const char *keyword);
+	dbug_uint _line_, const char **_sfunc_, const char **_sfile_,
+	dbug_uint * _slevel_, char ***);
+    extern void _db_return_(dbug_uint _line_, const char **_sfunc_,
+	const char **_sfile_, dbug_uint * _slevel_);
+    extern void _db_pargs_(dbug_uint _line_, const char *keyword);
     extern void _db_doprnt_(const char *format, ...);
-    extern void _db_dump_(uint _line_, const char *keyword,
-	const char *memory, uint length);
+    extern void _db_dump_(dbug_uint _line_, const char *keyword,
+	const char *memory, dbug_uint length);
     extern void _db_lock_file(void);
     extern void _db_unlock_file(void);
 
 
-#define DBUG_ENTER(a) const char *_db_func_, *_db_file_; uint _db_level_; \
+#define DBUG_ENTER(a) const char *_db_func_, *_db_file_; dbug_uint _db_level_; \
 	char **_db_framep_; \
 	_db_enter_ (a,__FILE__,__LINE__,&_db_func_,&_db_file_,&_db_level_, \
 		    &_db_framep_)

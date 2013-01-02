@@ -35,7 +35,7 @@
  *
  *  SCCS
  *
- *	@(#)dbug.c	1.26	01/01/13
+ *	@(#)dbug.c	1.27-beta	01/01/13
  *
  *  DESCRIPTION
  *
@@ -66,6 +66,7 @@
  *	Check of malloc on entry/exit (option "S")
  *
  *	Paramvir Bali           Made it compilable on OSX
+ *	Paramvir Bali           Fixed C types so that code is more portable
  */
 
 #ifdef DBUG_OFF
@@ -151,12 +152,6 @@ typedef int BOOLEAN;
 #define BOOLEAN BOOL
 #endif
 
-/* To make it work on OSX */
-#ifndef AUTOS_REVERSE
-#    ifndef ulong
-typedef unsigned long ulong;
-#    endif
-#endif
 /*
  *	Make it easy to change storage classes if necessary.
  */
@@ -206,7 +201,7 @@ BOOLEAN _no_db_ = FALSE;				   /* TRUE if no debugging at all */
 
 
 
-IMPORT int _sanity(const char *file, uint line);
+IMPORT int _sanity(const char *file, dbug_uint line);
 
 /*
  *	The user may specify a list of functions to trace or
@@ -232,7 +227,7 @@ struct state
 {
     int flags;						   /* Current state flags */
     int maxdepth;					   /* Current maximum trace depth */
-    uint delay;						   /* Delay after each output line */
+    dbug_uint delay;						   /* Delay after each output line */
     int sub_level;					   /* Sub this from code_state->level */
     FILE *out_file;					   /* Current output stream */
     FILE *prof_file;					   /* Current profiling stream */
@@ -274,7 +269,7 @@ typedef struct st_code_state
  *	_db_doprnt_().
  */
 
-    uint u_line;					   /* User source code line number */
+    dbug_uint u_line;					   /* User source code line number */
     const char *u_keyword;				   /* Keyword for current macro */
     int locked;						   /* If locked with _db_lock_file */
 }
@@ -312,7 +307,7 @@ static void ChangeOwner(char *pathname);
 static char *DbugMalloc(int size);
 	/* Remove leading pathname components */
 static char *BaseName(const char *pathname);
-static void DoPrefix(uint line);
+static void DoPrefix(dbug_uint line);
 static void FreeList(struct link *linkp);
 static void Indent(int indent);
 static BOOLEAN InList(struct link *linkp, const char *cp);
@@ -354,7 +349,7 @@ static char *static_strtok(char *s1, char chr);
  */
 
 #if defined(unix) || defined(xenix) || defined(VMS) || defined(__NetBSD__)
-# define Delay(A) sleep((uint) A)
+# define Delay(A) sleep((dbug_uint) A)
 #elif defined(AMIGA)
 IMPORT int Delay();					   /* Pause for given number of ticks */
 #else
@@ -724,10 +719,10 @@ _db_pop_()
 void
 _db_enter_(const char *_func_,
     const char *_file_,
-    uint _line_,
+    dbug_uint _line_,
     const char **_sfunc_,
     const char **_sfile_,
-    uint * _slevel_, char ***_sframep_ __attribute__ ((unused)))
+    dbug_uint * _slevel_, char ***_sframep_ __attribute__ ((unused)))
 {
     register CODE_STATE *state;
 
@@ -759,7 +754,7 @@ _db_enter_(const char *_func_,
 	    (void) fprintf(_db_pfp_, PROF_SFMT, state->framep, stackused,
 		*_sfunc_);
 #else
-	    (void) fprintf(_db_pfp_, PROF_SFMT, (ulong) state->framep,
+	    (void) fprintf(_db_pfp_, PROF_SFMT, (dbug_ulong) state->framep,
 		stackused, state->func);
 #endif
 	    (void) fflush(_db_pfp_);
@@ -805,8 +800,8 @@ _db_enter_(const char *_func_,
  */
 
 void
-_db_return_(uint _line_,
-    const char **_sfunc_, const char **_sfile_, uint * _slevel_)
+_db_return_(dbug_uint _line_,
+    const char **_sfunc_, const char **_sfile_, dbug_uint * _slevel_)
 {
     CODE_STATE *state;
 
@@ -873,7 +868,7 @@ _db_return_(uint _line_,
  */
 
 void
-_db_pargs_(uint _line_, const char *keyword)
+_db_pargs_(dbug_uint _line_, const char *keyword)
 {
     CODE_STATE *state = code_state();
     state->u_line = _line_;
@@ -956,7 +951,7 @@ _db_doprnt_(const char *format, ...)
  */
 
 void
-_db_dump_(uint _line_, const char *keyword, const char *memory, uint length)
+_db_dump_(dbug_uint _line_, const char *keyword, const char *memory, dbug_uint length)
 {
     int pos;
     char dbuff[90];
@@ -974,12 +969,12 @@ _db_dump_(uint _line_, const char *keyword, const char *memory, uint length)
 	    fprintf(_db_fp_, "%s: ", state->func);
 	}
 	sprintf(dbuff, "%s: Memory: %lx  Bytes: (%d)\n",
-	    keyword, (ulong) memory, length);
+	    keyword, (dbug_ulong) memory, length);
 	(void) fputs(dbuff, _db_fp_);
 
 	pos = 0;
 	while (length-- > 0) {
-	    uint tmp = *((unsigned char *) memory++);
+	    dbug_uint tmp = *((unsigned char *) memory++);
 	    if ((pos += 3) >= 80) {
 		fputc('\n', _db_fp_);
 		pos = 3;
@@ -1368,7 +1363,7 @@ StrDup(const char *str)
  */
 
 static void
-DoPrefix(uint _line_)
+DoPrefix(dbug_uint _line_)
 {
     CODE_STATE *state;
     state = code_state();
@@ -1846,7 +1841,7 @@ _db_longjmp_()
 static int
 DelayArg(int value)
 {
-    uint delayarg = 0;
+    dbug_uint delayarg = 0;
 
 #if (unix || xenix)
     delayarg = value / 10;				   /* Delay is in seconds for sleep () */
@@ -1980,7 +1975,7 @@ Clock()
 
 #elif defined(MSDOS) || defined(__WIN__) || defined(OS2)
 
-static ulong
+static dbug_ulong
 Clock()
 {
     return clock() * (1000 / Cmy_pthread_mutex_lockS_PER_SEC);
