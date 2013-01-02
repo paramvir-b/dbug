@@ -149,6 +149,12 @@ typedef int BOOLEAN;
 #define BOOLEAN BOOL
 #endif
 
+/* To make it work on OSX */
+#ifndef AUTOS_REVERSE
+#    ifndef ulong
+typedef unsigned long ulong;
+#    endif
+#endif
 /*
  *	Make it easy to change storage classes if necessary.
  */
