@@ -7,7 +7,7 @@ For running the test:
 
 If no error occurred and you saw something like:
 
-`
+<pre>
 DBUG_OPTS=d:t:o:L:i:n:N:P:g
 50930:     1: sample:    50:    1: >MAIN
 50930:     2: sample:    52:    1: | TRACE: This is a trace message
@@ -41,6 +41,6 @@ DBUG_OPTS=d:t:o:L:i:n:N:P:g
 50930:    30: sample:    35:    2: | | FATAL: This is a fatal message
 50930:    31: sample:    37:    2: | <TESTFUNCTION
 50930:    32: sample:    63:    1: <MAIN
-`
+</pre>
 
 everything is good. The output above is the output from the usage of dbug library in the sample app. You can look into the Sample.c on how to use dbug library.
