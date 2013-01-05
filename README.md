@@ -15,3 +15,10 @@ http://www.tol.it/doc/MySQL/appendixC.html
 
 UNDER DEVELOPMENT
 =================
+
+
+Whats New
+=========
+
+* Code is more portable as its been tested/fixed on multiple compilers and operating systems 
+* If you using C99 standards you can use DBUG_ENTER without passing any arguments

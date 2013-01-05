@@ -1,4 +1,9 @@
-/* UNDER DEVELOPMENT */
+/*
+ * This is a sample file to show how to use dbug library
+ *
+ * Code Location: https://github.com/paramvir-b/dbug
+ *
+*/
 #include <stdlib.h>
 #include "../dbug/dbug.h"
 
