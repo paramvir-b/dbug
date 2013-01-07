@@ -21,4 +21,6 @@ Whats New
 =========
 
 * Code is more portable as its been tested/fixed on multiple compilers and operating systems 
-* If you using C99 standards you can use DBUG_ENTER without passing any arguments
+* If you using C99 standards you can use DBUG_ENTER without passing any arguments (See Sample.c)
+* Added support for log levels like info, warn, error etc.
+

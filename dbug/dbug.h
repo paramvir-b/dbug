@@ -142,9 +142,19 @@ extern "C"
 #define DBUG_ERROR_STR  "[ERROR]"
 #define DBUG_WARN_STR   "[WARN ]"
 #define DBUG_INFO_STR   "[info ]"
+#define DBUG_ARGS_STR   "[args ]"
 #define DBUG_DEBUG_STR  "[debug]"
 #define DBUG_TRACE_STR  "[trace]"
-#define DBUG_ARGS_STR   "[args ]"
+
+/* Predifned log check strings */
+#define DBUG_FATAL_CHECK  "fatal"
+#define DBUG_ERROR_CHECK  "error"
+#define DBUG_WARN_CHECK   "warn"
+#define DBUG_INFO_CHECK   "info"
+#define DBUG_ARGS_CHECK   "args"
+#define DBUG_DEBUG_CHECK  "debug"
+#define DBUG_TRACE_CHECK  "trace"
+#define DBUG_ALL_CHECK    "*"
 
 #define DBUG_ENTER_EX(a) const char *_db_func_, *_db_file_; dbug_uint _db_level_; \
 	char **_db_framep_; \
@@ -187,6 +197,12 @@ extern "C"
 #define DBUG_my_pthread_mutex_lock_FILE { _db_lock_file(); }
 #define DBUG_my_pthread_mutex_unlock_FILE { _db_unlock_file(); }
 #define DBUG_ASSERT(A) assert(A)
+
+/* Define defaults. Override these in your code, if not overridden it will default to below */
+#ifndef DBUG_DEFAULT_DEBUG_CTRL_STR
+#    define DBUG_DEFAULT_DEBUG_CTRL_STR   DBUG_WARN_CHECK
+#endif
+
 #else							   /* No debugger */
 
 #define DBUG_ENTER(a1)

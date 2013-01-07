@@ -285,6 +285,8 @@ CODE_STATE;
 
 	/* Parse a debug command string */
 static struct link *ListParse(char *ctlp);
+    /* Process control word in debug control string */
+static char *ProcessDebugCtrlWord(char *scan);
 	/* Make a fresh copy of a string */
 static char *StrDup(const char *str);
 	/* Open debug output stream */
@@ -445,7 +447,19 @@ static CODE_STATE static_code_state = { 0, 0, "?func", "?file", NULL, 0, NULL,
  *			by a list of keywords which selects output
  *			only for the DBUG macros with that keyword.
  *			A null list of keywords implies output for
- *			all macros.
+ *			default macros as mentioned during compilation.
+ *          Also the first macro prior to comma is a control word.
+ *          If it is '*' then all macros are enabled. If it is 
+ *          'info' then all macros with log levels below 'info'
+ *          are enabled. To the control word feature you need to
+ *          use below macros in code:
+ *            DBUG_FATAL_STR
+ *            DBUG_ERROR_STR
+ *            DBUG_WARN_STR
+ *            DBUG_INFO_STR
+ *            DBUG_ARGS_STR
+ *            DBUG_DEBUG_STR
+ *            DBUG_TRACE_STR
  *
  *		D	Delay after each debugger output line.
  *			The argument is the number of tenths of seconds
@@ -531,6 +545,7 @@ _db_push_(const char *control)
     register struct link *temp;
     CODE_STATE *state;
     char *new_str;
+    char *ctrl_str = NULL;
 
     if (!_db_fp_)
 	_db_fp_ = stderr;				   /* Output stream, default stderr */
@@ -552,8 +567,11 @@ _db_push_(const char *control)
 	case 'd':
 	    _db_on_ = TRUE;
 	    stack->flags |= DEBUG_ON;
-	    if (*scan++ == ',') {
-		stack->keywords = ListParse(scan);
+            ctrl_str = ProcessDebugCtrlWord(scan);
+            if (ctrl_str) {
+                temp = ListParse(ctrl_str);
+                stack->keywords = temp;
+                free(ctrl_str);
 	    }
 	    break;
 	case 'D':
@@ -1042,6 +1060,107 @@ ListParse(char *ctlp)
 	head = new_malloc;
     }
     return (head);
+}
+
+/*
+ *  FUNCTION
+ *
+ *	ProcessDebugCtrlWord    Process the control word inside the debug control string
+ *
+ *  SYNOPSIS
+ *
+ *  static char *ProcessDebugCtrlWord(scan)
+ *  char *scan
+ *
+ *  DESCRIPTION
+ *
+ *  Takes debug control string and then extracts and expands the control word to control string.
+ *  This is specifically used to support logging levels. If we find the control word in the 
+ *  string we ll expand that to appropriate control string.
+ *
+ *  Input                      Output
+ *  ""                         Default control string defined by DBUG_DEFAULT_DEBUG_CTRL_STR
+ *  "info"                     DBUG_INFO_STR","DBUG_WARN_STR","DBUG_ERROR_STR","DBUG_FATAL_STR
+ *                             which is "[info ],[WARN ],[ERROR],[FATAL]"
+ *  
+ *  "info,DEBUG1"              DBUG_INFO_STR","DBUG_WARN_STR","DBUG_ERROR_STR","DBUG_FATAL_STR
+ *                             which is "[info ],[WARN ],[ERROR],[FATAL],DEBUG1"
+ *  ","                        Disables everything and there is no output
+ *
+ */
+
+static char *
+ProcessDebugCtrlWord(char *scan)
+{
+    char *ctrl_word = NULL;
+    char *ctrl_str = NULL;
+    char *scan_rest = NULL;
+    char *temp_str = NULL;
+
+    /* Extract control word */
+    if(*scan == EOS) 
+        ctrl_word = DBUG_DEFAULT_DEBUG_CTRL_STR;
+    else if (*scan == DBUG_ALL_CHECK[0]) /* Allow all dbug messages */
+        ctrl_word = DBUG_ALL_CHECK;
+    else {
+        /* Extract control word if available*/
+        if(*scan != ',') {
+            ctrl_word = scan;
+            while (*scan != EOS && *scan != ',') {
+                *scan++;
+            }
+            if (*scan == ',') {
+                *scan++ = EOS;
+            }
+            scan_rest = scan;
+        }
+    }
+
+    /* If no control word is found just return scan string as is */
+    if(!ctrl_word) return (StrDup(scan));
+
+    /* No filtering to be done */
+    if(ctrl_word[0] == DBUG_ALL_CHECK[0]) return (NULL);
+
+    else {
+        /* Expand control word to control string */
+        if(!strcmp(ctrl_word,DBUG_TRACE_CHECK))
+            ctrl_str = StrDup(DBUG_TRACE_STR","DBUG_DEBUG_STR"," \
+                    DBUG_ARGS_STR","DBUG_INFO_STR"," \
+                    DBUG_WARN_STR","DBUG_ERROR_STR"," \
+                    DBUG_FATAL_STR);
+        else if(!strcmp(ctrl_word,DBUG_DEBUG_CHECK))
+            ctrl_str = StrDup(DBUG_DEBUG_STR"," DBUG_ARGS_STR"," \
+                    DBUG_INFO_STR","DBUG_WARN_STR"," \
+                    DBUG_ERROR_STR","DBUG_FATAL_STR);
+        else if(!strcmp(ctrl_word,DBUG_ARGS_CHECK))
+            ctrl_str = StrDup(DBUG_ARGS_STR","DBUG_INFO_STR"," \
+                    DBUG_WARN_STR","DBUG_ERROR_STR"," \
+                    DBUG_FATAL_STR);
+        else if(!strcmp(ctrl_word,DBUG_INFO_CHECK))
+            ctrl_str = StrDup(DBUG_INFO_STR"," DBUG_WARN_STR"," \
+                    DBUG_ERROR_STR","DBUG_FATAL_STR);
+        else if(!strcmp(ctrl_word,DBUG_WARN_CHECK))
+            ctrl_str = StrDup(DBUG_WARN_STR","DBUG_ERROR_STR","DBUG_FATAL_STR);
+        else if(!strcmp(ctrl_word,DBUG_ERROR_CHECK))
+            ctrl_str = StrDup(DBUG_ERROR_STR"," DBUG_FATAL_STR);
+        else if(!strcmp(ctrl_word,DBUG_FATAL_CHECK))
+            ctrl_str = StrDup(DBUG_FATAL_STR);
+        else
+            ctrl_str = StrDup(""); /* Some Invalid control word so just removing it */
+
+        if(scan_rest && *scan_rest != EOS) {
+           temp_str = (char *)DbugMalloc(strlen(ctrl_str) + strlen(scan_rest) + 1 + 1);
+           *temp_str = '\0';
+           strcat(temp_str, ctrl_str); 
+           strcat(temp_str, ","); 
+           strcat(temp_str, scan_rest);
+           free(ctrl_str);  
+           ctrl_str = temp_str;
+        }
+    }    
+
+    return (ctrl_str);
 }
 
 /*
