@@ -116,7 +116,7 @@ extern "C"
 
     extern char _dig_vec[];
 
-/* Predifined log strings */
+/* Predefined log strings */
 #define DBUG_FATAL_STR  "FATAL"
 #define DBUG_ERROR_STR  "ERROR"
 #define DBUG_WARN_STR   "WARN "
@@ -125,7 +125,7 @@ extern "C"
 #define DBUG_DEBUG_STR  "DEBUG"
 #define DBUG_TRACE_STR  "TRACE"
 
-/* Predifned log check strings */
+/* Predefined log check strings */
 #define DBUG_FATAL_CHECK  "fatal"
 #define DBUG_ERROR_CHECK  "error"
 #define DBUG_WARN_CHECK   "warn"
