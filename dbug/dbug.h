@@ -138,13 +138,13 @@ extern "C"
     extern void _db_unlock_file(void);
 
 /* Predifined log strings */
-#define DBUG_FATAL_STR  "[FATAL]"
-#define DBUG_ERROR_STR  "[ERROR]"
-#define DBUG_WARN_STR   "[WARN ]"
-#define DBUG_INFO_STR   "[info ]"
-#define DBUG_ARGS_STR   "[args ]"
-#define DBUG_DEBUG_STR  "[debug]"
-#define DBUG_TRACE_STR  "[trace]"
+#define DBUG_FATAL_STR  "FATAL"
+#define DBUG_ERROR_STR  "ERROR"
+#define DBUG_WARN_STR   "WARN "
+#define DBUG_INFO_STR   "INFO "
+#define DBUG_ARGS_STR   "ARGS "
+#define DBUG_DEBUG_STR  "DEBUG"
+#define DBUG_TRACE_STR  "TRACE"
 
 /* Predifned log check strings */
 #define DBUG_FATAL_CHECK  "fatal"
