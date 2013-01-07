@@ -116,6 +116,25 @@ extern "C"
 
     extern char _dig_vec[];
 
+/* Predifined log strings */
+#define DBUG_FATAL_STR  "FATAL"
+#define DBUG_ERROR_STR  "ERROR"
+#define DBUG_WARN_STR   "WARN "
+#define DBUG_INFO_STR   "INFO "
+#define DBUG_ARGS_STR   "ARGS "
+#define DBUG_DEBUG_STR  "DEBUG"
+#define DBUG_TRACE_STR  "TRACE"
+
+/* Predifned log check strings */
+#define DBUG_FATAL_CHECK  "fatal"
+#define DBUG_ERROR_CHECK  "error"
+#define DBUG_WARN_CHECK   "warn"
+#define DBUG_INFO_CHECK   "info"
+#define DBUG_ARGS_CHECK   "args"
+#define DBUG_DEBUG_CHECK  "debug"
+#define DBUG_TRACE_CHECK  "trace"
+#define DBUG_ALL_CHECK    "*"
+
 #if !defined(DBUG_OFF) && !defined(_lint)
     extern int _db_on_, _no_db_;
     extern FILE *_db_fp_;
@@ -137,24 +156,6 @@ extern "C"
     extern void _db_lock_file(void);
     extern void _db_unlock_file(void);
 
-/* Predifined log strings */
-#define DBUG_FATAL_STR  "FATAL"
-#define DBUG_ERROR_STR  "ERROR"
-#define DBUG_WARN_STR   "WARN "
-#define DBUG_INFO_STR   "INFO "
-#define DBUG_ARGS_STR   "ARGS "
-#define DBUG_DEBUG_STR  "DEBUG"
-#define DBUG_TRACE_STR  "TRACE"
-
-/* Predifned log check strings */
-#define DBUG_FATAL_CHECK  "fatal"
-#define DBUG_ERROR_CHECK  "error"
-#define DBUG_WARN_CHECK   "warn"
-#define DBUG_INFO_CHECK   "info"
-#define DBUG_ARGS_CHECK   "args"
-#define DBUG_DEBUG_CHECK  "debug"
-#define DBUG_TRACE_CHECK  "trace"
-#define DBUG_ALL_CHECK    "*"
 
 #define DBUG_ENTER_EX(a) const char *_db_func_, *_db_file_; dbug_uint _db_level_; \
 	char **_db_framep_; \
@@ -231,6 +232,10 @@ extern "C"
 #define DBUG_my_pthread_mutex_lock_FILE
 #define DBUG_my_pthread_mutex_unlock_FILE
 #define DBUG_ASSERT(A) {}
+
+#ifndef DBUG_DEFAULT_DEBUG_CTRL_STR
+#    define DBUG_DEFAULT_DEBUG_CTRL_STR   ""
+#endif
 #endif
 #ifdef	__cplusplus
 }
