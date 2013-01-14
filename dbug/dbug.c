@@ -1107,7 +1107,7 @@ ProcessDebugCtrlWord(char *scan)
         if(*scan != ',') {
             ctrl_word = scan;
             while (*scan != EOS && *scan != ',') {
-                *scan++;
+                scan++;
             }
             if (*scan == ',') {
                 *scan++ = EOS;
