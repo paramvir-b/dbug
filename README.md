@@ -28,7 +28,7 @@ Sample Output
 =============
 
 <pre>
-DBUG_OPTS=d:t:o:L:i:n:N:P:g
+DBUG_OPTS=d=trace:t:o:L:i:n:N:P:g
 50930:     1: sample:    50:    1: &gt;MAIN
 50930:     2: sample:    52:    1: | TRACE: This is a trace message
 50930:     3: sample:    53:    1: | DEBUG: This is a debug message
