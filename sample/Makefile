@@ -27,5 +27,6 @@ clean:
 
 
 test: clean all
-	cd bin;echo "------C89------"; export DBUG_OPTS="d:t:o:L:i:n:N:P:g"; ./sample89
-	cd bin;echo "------C99------"; export DBUG_OPTS="d:t:o:L:i:n:N:P:g"; ./sample
+	cd bin;echo "------C89------"; export DBUG_OPTS="d=trace:t:o:L:i:n:N:P:g"; ./sample89
+	cd bin;echo "------C99------"; export DBUG_OPTS="d=trace:t:o:L:i:n:N:P:g"; ./sample
+	cd bin;echo "------C99------"; export DBUG_OPTS="d=trace:o:L:i:n:N:P:g"; ./sample

@@ -63,3 +63,32 @@ DBUG_OPTS=d:t:o:L:i:n:N:P:g
 50930:    32: sample:    63:    1: &lt;MAIN
 
 </pre>
+
+Another one:
+
+<pre>
+DBUG_OPTS=d=trace:o:L:i:n:N:P:g
+ 7490:     1: ./sample:    55:    1: main: TRACE: This is a trace message
+ 7490:     2: ./sample:    56:    1: main: DEBUG: This is a debug message
+ 7490:     3: ./sample:    57:    1: main: DEBUG2: This is a debug message
+ 7490:     4: ./sample:    58:    1: main: INFO : This is an info message
+ 7490:     5: ./sample:    59:    1: main: WARN : This is a warn message
+ 7490:     6: ./sample:    60:    1: main: ERROR: This is an error message
+ 7490:     7: ./sample:    61:    1: main: FATAL: This is a fatal message
+ 7490:     8: ./sample:    29:    2: testFunction: ARGS : arg1=3 arg2=6
+ 7490:     9: ./sample:    13:    3: testFunction_2: ARGS : arg1=7 arg2=9 arg3=100
+ 7490:    10: ./sample:    15:    3: testFunction_2: TRACE: This is a trace message
+ 7490:    11: ./sample:    16:    3: testFunction_2: DEBUG: This is a debug message
+ 7490:    12: ./sample:    17:    3: testFunction_2: DEBUG1: This is a debug message
+ 7490:    13: ./sample:    18:    3: testFunction_2: INFO : This is an info message
+ 7490:    14: ./sample:    19:    3: testFunction_2: WARN : This is a warn message
+ 7490:    15: ./sample:    20:    3: testFunction_2: ERROR: This is an error message
+ 7490:    16: ./sample:    21:    3: testFunction_2: FATAL: This is a fatal message
+ 7490:    17: ./sample:    32:    2: testFunction: TRACE: This is a trace message
+ 7490:    18: ./sample:    33:    2: testFunction: DEBUG: This is a debug message
+ 7490:    19: ./sample:    34:    2: testFunction: DEBUG2: This is a debug message
+ 7490:    20: ./sample:    35:    2: testFunction: INFO : This is an info message
+ 7490:    21: ./sample:    36:    2: testFunction: WARN : This is a warn message
+ 7490:    22: ./sample:    37:    2: testFunction: ERROR: This is an error message
+ 7490:    23: ./sample:    38:    2: testFunction: FATAL: This is a fatal message
+</pre>
