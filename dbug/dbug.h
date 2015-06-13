@@ -71,6 +71,7 @@
  *	Paramvir Bali           Fixed C types so that code is more portable
  *	Paramvir Bali           Added check for FALSE macro to make code more portable
  *	Paramvir Bali           Added define for __attribute__ to make code more portable
+ *	Paramvir Bali           Added log levels
  */
 
 #ifndef _dbug_h
